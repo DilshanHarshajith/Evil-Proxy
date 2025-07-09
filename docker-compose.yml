@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  mitmproxy:
+    image: mitmproxy/mitmproxy:latest
+    container_name: Evil_Proxy
+    ports:
+      - "8080:8080"  # Proxy port
+      - "8081:8081"  # Web interface port
+    volumes:
+      - ./Data:/home/mitmproxy/Data
+      - ./scripts:/home/mitmproxy/scripts
+      - ./certs:/home/mitmproxy/.mitmproxy
+    command: >
+      mitmweb 
+      --mode regular 
+      --showhost 
+      --set confdir=/home/mitmproxy/.mitmproxy
+      --set block_global=false
+      --set block_private=false
+      --set web_password=1234
+      --proxyauth="proxy:112233"
+      --web-host 0.0.0.0
+      --web-port 8081
+      --no-web-open-browser
+      --scripts /home/mitmproxy/scripts/script.py
+      --set view_filter='!(~c 407)'
+    environment:
+      - PYTHONUNBUFFERED=1
+    restart: unless-stopped
+    network_mode: bridge
