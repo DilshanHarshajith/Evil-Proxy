@@ -7,7 +7,7 @@ set -e
 PROJECT_DIR=$(pwd)/../Evil_Proxy
 DATA_DIR="$PROJECT_DIR/Data"
 SCRIPT_NAME="script.py"
-COMPOSE_NAME="docker-compose.yml"
+COMPOSE_FILE="docker-compose.yml"
 USER_SCRIPTS_DIR="$PROJECT_DIR/UserScripts"
 
 function check_dependencies() {
@@ -48,11 +48,12 @@ function copy_capture_script() {
 }
 
 function copy_compose_file() {
-    if [[ -f "$COMPOSE_NAME" ]]; then
-        cp "$COMPOSE_NAME" $PROJECT_DIR/
-        echo "[✔] $COMPOSE_NAME copied to $PROJECT_DIR"
+    if [[ -f "$COMPOSE_FILE" ]]; then
+        cp "$COMPOSE_FILE" $PROJECT_DIR/
+        chmod 755 $PROJECT_DIR/$COMPOSE_FILE
+        echo "[✔] $COMPOSE_FILE copied to $PROJECT_DIR"
     else
-        echo "[!] $COMPOSE_NAME not found. Please add it to the '$PROJECT_DIR/' directory manually."
+        echo "[!] $COMPOSE_FILE not found. Please add it to the '$PROJECT_DIR/' directory manually."
     fi
 }
 
