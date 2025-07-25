@@ -524,7 +524,7 @@ class MitmProxyAddon:
         self.extractor = extractor
         debug_log("MitmProxyAddon initialized")
 
-    def clientconnect(self, layer):
+    def client_connected(self, layer):
         """Handle client connection - EARLIEST possible intervention point"""
         try:
             if hasattr(layer, 'client') and layer.client and hasattr(layer.client, 'peername'):
